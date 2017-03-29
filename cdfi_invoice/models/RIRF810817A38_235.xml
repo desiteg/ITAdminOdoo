@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cfdi:Comprobante xmlns:cfdi="http://www.sat.gob.mx/cfd/3"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.sat.gob.mx/cfd/3 http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv32.xsd"
+	version="3.2" folio="235" fecha="2016-12-29T16:53:16" formaDePago="Pago en una sola exhibición"
+	condicionesDePago="Contado" subTotal="400.00" descuento="0.00"
+	TipoCambio="1" Moneda="MXN" total="381.33" metodoDePago="01"
+	tipoDeComprobante="ingreso" LugarExpedicion="Monterrey, Nuevo León"
+	noCertificado="00001000000302260753"
+	certificado="MIIE+TCCA+GgAwIBAgIUMDAwMDEwMDAwMDAzMDIyNjA3NTMwDQYJKoZIhvcNAQEFBQAwggGKMTgwNgYDVQQDDC9BLkMuIGRlbCBTZXJ2aWNpbyBkZSBBZG1pbmlzdHJhY2nDs24gVHJpYnV0YXJpYTEvMC0GA1UECgwmU2VydmljaW8gZGUgQWRtaW5pc3RyYWNpw7NuIFRyaWJ1dGFyaWExODA2BgNVBAsML0FkbWluaXN0cmFjacOzbiBkZSBTZWd1cmlkYWQgZGUgbGEgSW5mb3JtYWNpw7NuMR8wHQYJKoZIhvcNAQkBFhBhY29kc0BzYXQuZ29iLm14MSYwJAYDVQQJDB1Bdi4gSGlkYWxnbyA3NywgQ29sLiBHdWVycmVybzEOMAwGA1UEEQwFMDYzMDAxCzAJBgNVBAYTAk1YMRkwFwYDVQQIDBBEaXN0cml0byBGZWRlcmFsMRQwEgYDVQQHDAtDdWF1aHTDqW1vYzEVMBMGA1UELRMMU0FUOTcwNzAxTk4zMTUwMwYJKoZIhvcNAQkCDCZSZXNwb25zYWJsZTogQ2xhdWRpYSBDb3ZhcnJ1YmlhcyBPY2hvYTAeFw0xNDAxMDgxMTEwMzJaFw0xODAxMDgxMTEwMzJaMIHBMScwJQYDVQQDEx5GRVJOQU5ETyBBTEJFUlRPIFJJVkVSTyBSSVZFUk8xJzAlBgNVBCkTHkZFUk5BTkRPIEFMQkVSVE8gUklWRVJPIFJJVkVSTzEnMCUGA1UEChMeRkVSTkFORE8gQUxCRVJUTyBSSVZFUk8gUklWRVJPMRYwFAYDVQQtEw1SSVJGODEwODE3QTM4MRswGQYDVQQFExJSSVJGODEwODE3SFFSVlZSMDYxDzANBgNVBAsTBlVuaWRhZDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJRvx6vynFnSo7CivQMn7nxG62PtdIQcGumEFDK891zsCSNkPmJbxSm8RxDU4mohS+6Yxqtp+attFtjKbKptoVZJ41hsUwTLuJFBJUSenfZ7SVjIvUd8bv7y8MTHvV3JUvS7jRi4c8aG81/mcqSXRmPu7Wayr05rtM5QA37sc2UvehYM1Dzw6qeyYKekzkV/rMbSvpUWhn1jS593xs9rmvSPeh0DGOHBZXywTYhkRRHQVG+4EykO6sz/0+UYn1h0x+CLMvP9b+Dkw1v1TYcxYATWhBs5zIX0Z1zFxdPGqp5ptZX7mQxgQq5YaKQI7WStk4/hipbEARCA41gXZXYTlGMCAwEAAaMdMBswDAYDVR0TAQH/BAIwADALBgNVHQ8EBAMCBsAwDQYJKoZIhvcNAQEFBQADggEBAKApF6dTIAzEyyAS4jQlGrAX3b5V2MnV/KnP3R+p8mUycHeH/28BI1aUEx/Fxlu3lfZjO8RnLNwDz2OmNJXDzxD+5VhtWX9FRBwSZbwjbLZlzCqX90SsN04Km5JHqrLEpl1rMZx3riSOOL+M79AUKbsENV+JjSGRpYtxGLZfWwkx0OOvPmvc+/L3KeX1Y0NN8SHpj1yayLqN4/1qkDvg+o551cdatEhv4dwSqLMZeHAZXQht0nYiVuSF5gDli8hQXECyasoPUkJ7bzYt3s34d7EYDF9MsDukKGDE4IdXc0gZnIVfVQA5So+rfxMl5twZVCbuYnC3MgtrhwFNzd+288A="
+	sello="O8AKBnrGkGQatdVFInL4jOqNewDeU2gT8ik9Qsr+a1yFdfuYgzE3WWIk1TcLyESg6ZCGwogD3MKJf+rlkAkAhFc9TFOFUfgrXnxlyaTHIh7+afUxvlaA7MiIJw7o159WOMhk1h9Ocy128pbsGlJMIsni1Yi7UcXTnJusebX9J5UjxlBBwbE+dbh+bhoFGGrGxo6IRn2LenisOEiLvVoEbJRXhoTawDNVj3unIiBqFmPQyQw7DRRKk5/GPLUgvhKkfJVjxLhwa76It3B5XYY+o0x7dCFyzyZHwTIzpSYMftk9MyawAXdh8kH69RncAL9MqPLTCQYjunh0HKNF5FbzSg==">
+	<cfdi:Emisor rfc="RIRF810817A38" nombre="Fernando Alberto Rivero Rivero">
+		<cfdi:DomicilioFiscal calle="Pino Escobeton"
+			noExterior="1918" colonia="Privada Pinos" localidad="Monterrey"
+			municipio="Monterrey" estado="Nuevo León" pais="México" codigoPostal="64550" />
+		<cfdi:RegimenFiscal Regimen="Actividades Empresariales y Profesionales" />
+	</cfdi:Emisor>
+	<cfdi:Receptor rfc="VVE100929H52" nombre="Veta Verde">
+		<cfdi:Domicilio calle="Nicolás Bravo" noExterior="21"
+			colonia="San Jeronimo Lidice" localidad="Ciudad de México" municipio="La Magdalena Contreras"
+			estado="Distrito Federal" pais="México" codigoPostal="10200" />
+	</cfdi:Receptor>
+	<cfdi:Conceptos>
+		<cfdi:Concepto cantidad="1" unidad="No Aplica"
+			noIdentificacion="MDA"
+			descripcion="Servicio mensual de Mesa de Ayuda, Periodo del 28 de diciembre 2016 al 28 enero de 2017"
+			valorUnitario="400.00" importe="400.00" />
+	</cfdi:Conceptos>
+	<cfdi:Impuestos totalImpuestosRetenidos="82.67"
+		totalImpuestosTrasladados="64">
+		<cfdi:Retenciones>
+			<cfdi:Retencion impuesto="IVA" importe="40.00" />
+			<cfdi:Retencion impuesto="ISR" importe="42.67" />
+		</cfdi:Retenciones>
+		<cfdi:Traslados>
+			<cfdi:Traslado impuesto="IVA" tasa="16" importe="64.00" />
+			<cfdi:Traslado impuesto="IEPS" tasa="0" importe="0" />
+		</cfdi:Traslados>
+	</cfdi:Impuestos>
+	<cfdi:Complemento>
+		<tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital"
+			version="1.0" UUID="A32DE340-F05C-4092-9C20-EC4222B7F856"
+			FechaTimbrado="2016-12-29T16:55:10"
+			selloCFD="O8AKBnrGkGQatdVFInL4jOqNewDeU2gT8ik9Qsr+a1yFdfuYgzE3WWIk1TcLyESg6ZCGwogD3MKJf+rlkAkAhFc9TFOFUfgrXnxlyaTHIh7+afUxvlaA7MiIJw7o159WOMhk1h9Ocy128pbsGlJMIsni1Yi7UcXTnJusebX9J5UjxlBBwbE+dbh+bhoFGGrGxo6IRn2LenisOEiLvVoEbJRXhoTawDNVj3unIiBqFmPQyQw7DRRKk5/GPLUgvhKkfJVjxLhwa76It3B5XYY+o0x7dCFyzyZHwTIzpSYMftk9MyawAXdh8kH69RncAL9MqPLTCQYjunh0HKNF5FbzSg=="
+			noCertificadoSAT="00001000000300250292"
+			selloSAT="qCfGNYDYDejOEjTxckp1rK1uRMqvnbB/zdb3YsWUv2HLM9IB1BLPMDibm9WP0PHBTcwuGG/PnAB7V8uT/tbJtsCXs6OG1j45muBV13I8fxY16SCvuk2By/Gn/nNEgHdKSjU8hnXdG/0Ys/yYZ2XeQlT4K7FAo0DYGByosPtM8es="
+			xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/TimbreFiscalDigital/TimbreFiscalDigital.xsd" />
+	</cfdi:Complemento>
+</cfdi:Comprobante>
