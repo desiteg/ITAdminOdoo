@@ -26,4 +26,7 @@
     ],
     'application': False,
     'installable': True,
+    'price': 50.00,
+    'currency': 'USD',
+    'license': 'OPL-1',	
 }
