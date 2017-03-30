@@ -5,7 +5,7 @@
 ##############################################################################
 
 {
-    'name': 'Factura CFDI',
+    'name': 'Ventas Factura Electronica Mexico',
     'version': '9.0',
     'description': ''' Factura Electronica módulo de ventas para Mexico (CFDI 2017)
     ''',

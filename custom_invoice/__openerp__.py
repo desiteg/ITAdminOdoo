@@ -5,12 +5,12 @@
 ##############################################################################
 
 {
-    'name': 'Mexican Invoice',
+    'name': 'Punto de Venta Factura Electronica Mexico',
     'version': '9.0',
-    'description': ''' Mexican Invoice.
+    'description': ''' Punto de Venta Factura Electronica Mexico (CFDI 2017).
     ''',
     'category': 'Sales, Point Of Sale, Accounting',
-    'author': 'Esousy',
+    'author': 'IT Admin',
     'website': '',
     'depends': [
         'base',
