@@ -5,7 +5,7 @@
 ##############################################################################
 
 {
-    'name': 'Punto de Venta Factura Electronica Mexico',
+    'name': 'Punto de Venta Factura Electronica Mexico CFDI',
     'version': '9.0',
     'description': ''' Punto de Venta Factura Electronica Mexico (CFDI 2017).
     ''',
