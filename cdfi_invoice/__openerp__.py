@@ -5,12 +5,12 @@
 ##############################################################################
 
 {
-    'name': 'CDFI Invoice',
+    'name': 'Factura CFDI',
     'version': '9.0',
-    'description': ''' CDFI Mexican Invoice.
+    'description': ''' Factura Electronica módulo de ventas para Mexico (CFDI 2017)
     ''',
     'category': 'Sales, Accounting',
-    'author': 'Esousy',
+    'author': 'IT Admin',
     'website': '',
     'depends': [
         'base',
