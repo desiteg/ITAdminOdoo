@@ -28,6 +28,8 @@ class PosOrder(models.Model):
     partner_id = fields.Many2one('res.partner', string=_('Customer'),
                                      select=1, states={'draft': [('readonly', False)], 'paid': [('readonly', False)]},
                                      default=_default_customer)
+    
+    main_journal_id = fields.Many2one(related='statement_ids.journal_id', string='Payment Method', readonly=True, store=True)
 
     def action_invoice(self, cr, uid, ids, context=None):
         inv_ref = self.pool.get('account.invoice')
