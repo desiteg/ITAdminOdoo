@@ -6,9 +6,9 @@ import requests
 import datetime
 from lxml import etree
 
-from openerp import fields, models, api,_
-from openerp.exceptions import UserError
-from openerp.tools import float_is_zero, float_compare
+from odoo import fields, models, api,_
+from odoo.exceptions import UserError
+from odoo.tools import float_is_zero, float_compare
 from reportlab.graphics.barcode import createBarcodeDrawing, getCodes
 from reportlab.lib.units import mm
 import amount_to_text_es_MX
@@ -332,7 +332,7 @@ class MailTemplate(models.Model):
         
         if isinstance(res_ids, (int, long)):
             res_ids = [res_ids]
-        res_ids_to_templates = super(MailTemplate, self).get_email_template_batch(res_ids)
+        res_ids_to_templates = super(MailTemplate, self).get_email_template(res_ids)
 
         # templates: res_id -> template; template -> res_ids
         templates_to_res_ids = {}

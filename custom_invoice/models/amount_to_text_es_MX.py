@@ -1,6 +1,4 @@
-from openerp.tools.translate import _
-from openerp.osv import fields, osv
-
+# -*- coding: utf-8 -*-
 
 class amount_to_text:
     """

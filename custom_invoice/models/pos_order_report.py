@@ -2,8 +2,8 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 
-from openerp import tools, fields, models, api, _, SUPERUSER_ID
-from openerp.exceptions import UserError
+from odoo import tools, fields, models, api, _, SUPERUSER_ID
+from odoo.exceptions import UserError
 
 class PosOrderReport(models.Model):
     _inherit = "report.pos.order"
@@ -12,8 +12,9 @@ class PosOrderReport(models.Model):
 
     payment_method_id = fields.Many2one('account.journal', string='Payment Method', readonly=True)
     
-
-    def init(self, cr):
+    @api.model_cr
+    def init(self):
+        cr = self._cr
         tools.drop_view_if_exists(cr, 'report_pos_order')
         cr.execute("""
             create or replace view report_pos_order as (
