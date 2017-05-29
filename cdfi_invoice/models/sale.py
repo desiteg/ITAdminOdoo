@@ -4,13 +4,13 @@ from lxml import etree
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
-from openerp import api, fields, models, _
-from openerp.tools import float_is_zero
-from openerp.tools.misc import formatLang
+from odoo import api, fields, models, _
+from odoo.tools import float_is_zero
+from odoo.tools.misc import formatLang
 
-from openerp.exceptions import UserError, RedirectWarning, ValidationError
+from odoo.exceptions import UserError, RedirectWarning, ValidationError
 
-import openerp.addons.decimal_precision as dp
+import odoo.addons.decimal_precision as dp
 
 #----------------------------------------------------------
 # Incoterms
