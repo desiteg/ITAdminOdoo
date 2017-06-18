@@ -228,6 +228,40 @@ class AccountInvoice(models.Model):
         result = super(AccountInvoice, self).invoice_validate()
         return result
     
+    @api.multi
+    def generate_cfdi_invoice(self):
+        # after validate, send invoice data to external system via http post
+        for invoice in self:
+            if invoice.factura_cfdi:
+                if estado_factura == 'factura_correcta':
+                    raise UserError(_('Error para timbrar factura, Factura ya generada.'))
+                if estado_factura == 'factura_cancelada':
+                    raise UserError(_('Error para timbrar factura, Factura ya generada y cancelada.'))
+                
+                values = invoice.to_json()
+                url = '%s%s' % (invoice.company_id.http_factura, '/invoice?handler=OdooHandler')
+                response = requests.post(url , 
+                                         auth=None,verify=False, data=json.dumps(values), 
+                                         headers={"Content-type": "application/json"})
+    
+                #print 'Response: ', response.status_code
+                json_response = response.json()
+                xml_file_link = False
+                estado_factura = json_response['estado_factura']
+                if estado_factura == 'problemas_factura':
+                    raise UserError(_('Error para timbrar factura, favor de revisar los datos de facturación. Si el error persiste, contacte a soporte técnico.'))
+                # Receive and stroe XML invoice
+                if json_response.get('factura_xml'):
+                    xml_file_link = invoice.company_id.factura_dir + '/' + invoice.number.replace('/', '_') + '.xml'
+                    xml_file = open(xml_file_link, 'w')
+                    xml_invoice = base64.b64decode(json_response['factura_xml'])
+                    xml_file.write(xml_invoice)
+                    xml_file.close()
+                    invoice._set_data_from_xml(xml_invoice)
+                invoice.write({'estado_factura': estado_factura,
+                               'xml_invoice_link': xml_file_link})
+        return True
+    
     @api.one
     def _set_data_from_xml(self, xml_invoice):
         if not xml_invoice:

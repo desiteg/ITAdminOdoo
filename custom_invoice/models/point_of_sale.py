@@ -31,99 +31,67 @@ class PosOrder(models.Model):
     
     main_journal_id = fields.Many2one(related='statement_ids.journal_id', string='Metodo de Pago', readonly=True, store=True)
 
-    def action_invoice(self, cr, uid, ids, context=None):
-        inv_ref = self.pool.get('account.invoice')
-        inv_line_ref = self.pool.get('account.invoice.line')
-        product_obj = self.pool.get('product.product')
+        
+    @api.multi
+    def action_invoice(self):
+        Invoice = self.env['account.invoice']
         inv_ids = []
         invoices = {}
-        orders = self.pool.get('pos.order').browse(cr, uid, ids, context=context)
 
-        for order in orders:
-            group_key = order.partner_id.id
+        for order in self:
             # Force company for all SUPERUSER_ID action
-            company_id = order.company_id.id
-            local_context = dict(context or {}, force_company=company_id, company_id=company_id)
+            local_context = dict(self.env.context, force_company=order.company_id.id, company_id=order.company_id.id)
             if order.invoice_id:
-                inv_ids.append(order.invoice_id.id)
+                Invoice += order.invoice_id
                 continue
 
             if not order.partner_id:
                 raise UserError(_('Please provide a partner for the sale.'))
+            group_key = order.partner_id.id
 
-            acc = order.partner_id.property_account_receivable_id.id
-            inv = {
-                'name': order.name,
-                'origin': order.name,
-                'account_id': acc,
-                'journal_id': order.sale_journal.id or None,
-                'type': 'out_invoice',
-                'reference': order.name,
-                'partner_id': order.partner_id.id,
-                'comment': order.note or '',
-                'currency_id': order.pricelist_id.currency_id.id, # considering partner's sale pricelist's currency
-                'company_id': company_id,
-                'user_id': uid,
-            }
-            invoice = inv_ref.new(cr, uid, inv)
+            invoice = Invoice.new(order._prepare_invoice())
             invoice._onchange_partner_id()
+            invoice.fiscal_position_id = order.fiscal_position_id
 
-            inv = invoice._convert_to_write(invoice._cache)
-            if not inv.get('account_id', None):
-                inv['account_id'] = acc
+            inv = invoice._convert_to_write({name: invoice[name] for name in invoice._cache})
             if group_key not in invoices:
-                inv_id = inv_ref.create(cr, SUPERUSER_ID, inv, context=local_context)
-                self.write(cr, uid, [order.id], {'invoice_id': inv_id, 'state': 'invoiced'}, context=local_context)
-                inv_ids.append(inv_id)
-                invoices[group_key] = inv_id
+                new_invoice = Invoice.with_context(local_context).sudo().create(inv)
+                order.write({'invoice_id': new_invoice.id, 'state': 'invoiced'})
+                inv_ids.append(new_invoice.id)
+                invoices[group_key] = new_invoice.id
+                Invoice += new_invoice
             elif group_key in invoices:
-                invoice_obj = inv_ref.browse(cr, uid, invoices[group_key], context=context)
+                invoice_obj = Invoice.with_context(local_context).browse(invoices[group_key])
                 if order.name not in invoice_obj.origin.split(', '):
-                    inv_ref.write(cr, SUPERUSER_ID, invoices[group_key], {'origin': invoice_obj.origin + ', ' + order.name}, context=local_context)
+                    invoice_obj.write({'origin': invoice_obj.origin + ', ' + order.name})
             inv_id = invoices[group_key]
+            new_invoice = Invoice.with_context(local_context).browse(inv_id)
+            
+            
+
             for line in order.lines:
-                inv_name = product_obj.name_get(cr, uid, [line.product_id.id], context=local_context)[0][1]
-                inv_line = {
-                    'invoice_id': inv_id,
-                    'product_id': line.product_id.id,
-                    'quantity': line.qty,
-                    'account_analytic_id': self._prepare_analytic_account(cr, uid, line, context=local_context),
-                    'name': inv_name,
-                }
+                self.with_context(local_context)._action_create_invoice_line(line, new_invoice.id)
 
-                #Oldlin trick
-                invoice_line = inv_line_ref.new(cr, SUPERUSER_ID, inv_line, context=local_context)
-                invoice_line._onchange_product_id()
-                invoice_line.invoice_line_tax_ids = [tax.id for tax in invoice_line.invoice_line_tax_ids if tax.company_id.id == company_id]
-                fiscal_position_id = line.order_id.fiscal_position_id
-                if fiscal_position_id:
-                    invoice_line.invoice_line_tax_ids = fiscal_position_id.map_tax(invoice_line.invoice_line_tax_ids)
-                invoice_line.invoice_line_tax_ids = [tax.id for tax in invoice_line.invoice_line_tax_ids]
-                # We convert a new id object back to a dictionary to write to bridge between old and new api
-                inv_line = invoice_line._convert_to_write(invoice_line._cache)
-                inv_line.update(price_unit=line.price_unit, discount=line.discount)
-                inv_line_ref.create(cr, SUPERUSER_ID, inv_line, context=local_context)
-            inv_ref.compute_taxes(cr, SUPERUSER_ID, [inv_id], context=local_context)
-            self.signal_workflow(cr, uid, [order.id], 'invoice')
-        
-        for inv_id in invoices.values():
-            inv_ref.signal_workflow(cr, SUPERUSER_ID, [inv_id], 'validate')
+            new_invoice.with_context(local_context).sudo().compute_taxes()
+            order.sudo().write({'state': 'invoiced'})
+            # this workflow signal didn't exist on account.invoice -> should it have been 'invoice_open' ? (and now method .action_invoice_open())
+            # shouldn't the created invoice be marked as paid, seing the customer paid in the POS?
+            # new_invoice.sudo().signal_workflow('validate')
 
-        if not inv_ids: return {}
+        if not Invoice:
+            return {}
 
-        mod_obj = self.pool.get('ir.model.data')
-        res = mod_obj.get_object_reference(cr, uid, 'account', 'invoice_form')
-        res_id = res and res[1] or False
         return {
             'name': _('Customer Invoice'),
             'view_type': 'form',
             'view_mode': 'form',
-            'view_id': [res_id],
+            'view_id': self.env.ref('account.invoice_form').id,
             'res_model': 'account.invoice',
             'context': "{'type':'out_invoice'}",
             'type': 'ir.actions.act_window',
+            'nodestroy': True,
             'target': 'current',
-            'res_id': inv_ids and inv_ids[0] or False,
+            'res_id': Invoice and Invoice.ids[0] or False,
         }
         
     
@@ -225,18 +193,13 @@ class PosOrder(models.Model):
                 inv_line.update(price_unit=order.amount_total)
                 inv_line_id = inv_line_ref.create(inv_line)
                 invoice_lines[group_key] = inv_line_id.id
-                print 'inv_line_id: ', inv_line_id
             elif group_key in invoices:
                 invoice_obj = inv_ref.browse(invoices[group_key])
                 if order.name not in invoice_obj.origin.split(', '):
                     invoice_obj.write({'origin': invoice_obj.origin + ', ' + order.name})
                 
                 line = invoice_obj.invoice_line_ids[0]
-                print 'invoice_lines[group_key]: ', invoice_lines[group_key]
-                print line.price_unit
-                print order.amount_total
                 amount = line.price_unit + order.amount_total
-                print amount
                 inv_lines = inv_line_ref.browse(invoice_lines[group_key])
                 inv_lines.write({'price_unit': amount})
             inv_id = invoices[group_key]
@@ -245,11 +208,10 @@ class PosOrder(models.Model):
             invoice_obj.with_context(local_context).sudo().compute_taxes()
             order.sudo().write({'state': 'invoiced'})
         
-        for inv_id in invoices.values():
-            invoice_obj = inv_ref.browse(inv_id)
-            invoice_obj.sudo().action_invoice_open()
+        # for inv_id in invoices.values():
+        #    invoice_obj = inv_ref.browse(inv_id)
+        #    invoice_obj.sudo().action_invoice_open()
             
-        print inv_ids
 
         if not inv_ids: return {}
 
@@ -264,6 +226,3 @@ class PosOrder(models.Model):
             'res_id': inv_ids[0],
         }
             
-    
-            
-    
